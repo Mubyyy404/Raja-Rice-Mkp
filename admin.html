@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Order Approver</title>
+<link rel="stylesheet" href="style.css"> 
+<style>
+    .admin-container { max-width: 500px; margin: 50px auto; padding: 30px; background: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    .admin-container h2 { color: #388e3c; margin-bottom: 20px; }
+    .admin-container input[type="text"] { padding: 10px; width: 100%; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; }
+    .admin-container button { width: 100%; padding: 12px; background: #00796b; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+    #status { margin-top: 20px; font-weight: bold; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="admin-container">
+    <h2>Admin Approval System</h2>
+    <p>Enter a unique order code below to approve it and save it to the shared Google Sheet database.</p>
+    <input type="text" id="approveCode" placeholder="Enter Order Code (e.g., ORD-A7B8C9)">
+    <button onclick="approveOrder()">Approve Order</button>
+    <p id="status"></p>
+</div>
+
+<script>
+    // ⚠️ IMPORTANT: REPLACE THIS URL with your deployed Web App URL!
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzPTxPe48-udI8qaj3e93qZ4lsQOuANZN4cljrXFZjLtqBVipieq9Y5lyLsQ_Mbi8v21g/exec"; 
+
+    function approveOrder() {
+        const code = document.getElementById('approveCode').value.trim().toUpperCase();
+        const statusDiv = document.getElementById('status');
+        statusDiv.innerText = "Processing...";
+
+        if (!code) {
+            statusDiv.innerText = "❌ Please enter an order code.";
+            return;
+        }
+
+        fetch(https://script.google.com/macros/s/AKfycbzPTxPe48-udI8qaj3e93qZ4lsQOuANZN4cljrXFZjLtqBVipieq9Y5lyLsQ_Mbi8v21g/exec, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ orderCode: code })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                statusDiv.innerText = `✅ Order ${code} approved successfully! This is now reflected for the client.`;
+                document.getElementById('approveCode').value = '';
+            } else {
+                statusDiv.innerText = `❌ Error: ${data.message}`;
+            }
+        })
+        .catch(error => {
+            statusDiv.innerText = "⚠️ Network Error. Could not connect to Google Sheets API.";
+            console.error('Approval Error:', error);
+        });
+    }
+</script>
+</body>
+</html>
