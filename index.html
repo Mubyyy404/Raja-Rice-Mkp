@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raja Rice & Grocery - Home</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+</head>
+<body>
+
+<div id="offerPopup" class="modal-popup">
+    <div class="popup-content">
+        <button class="close" onclick="closeOffer()">X</button>
+        <h2>🎉 Grand Opening Offer!</h2>
+        <p>Get **10% OFF** on all orders over ₹1000! Limited time only.</p>
+        <button onclick="closeOffer()">Shop Now</button>
+    </div>
+</div>
+
+<header>Raja Rice & Grocery</header>
+
+<nav>
+    <div class="nav-controls">
+        <input type="text" placeholder="Search products..." id="searchBar" onkeyup="filterProducts()">
+        <button onclick="openCart()">🛒 View Cart (<span id="cartCount">0</span>)</button>
+        <a href="admin.html" class="get-bill-btn" style="background:#ffcc80;">🔑 Admin Approve</a>
+        <a href="get-bill.html" class="get-bill-btn">🧾 Get Bill</a>
+    </div>
+</nav>
+
+<div class="container" id="productContainer">
+    <div class="card" data-id="RICE001" data-name="Basmati Rice" data-price="500">
+        <img src="https://via.placeholder.com/250x200.png?text=Basmati+Rice" alt="Basmati Rice">
+        <h3>Basmati Rice</h3>
+        <p>5kg pack. **₹500**</p>
+        <button onclick="addToCart('RICE001', 'Basmati Rice', 500)">Add to Cart</button>
+    </div>
+    <div class="card" data-id="OIL002" data-name="Sunflower Oil" data-price="200">
+        <img src="https://via.placeholder.com/250x200.png?text=Sunflower+Oil" alt="Sunflower Oil">
+        <h3>Sunflower Oil</h3>
+        <p>1L bottle. **₹200**</p>
+        <button onclick="addToCart('OIL002', 'Sunflower Oil', 200)">Add to Cart</button>
+    </div>
+    <div class="card" data-id="SUGAR003" data-name="White Sugar" data-price="150">
+        <img src="https://via.placeholder.com/250x200.png?text=White+Sugar" alt="White Sugar">
+        <h3>White Sugar</h3>
+        <p>2kg pack. **₹150**</p>
+        <button onclick="addToCart('SUGAR003', 'White Sugar', 150)">Add to Cart</button>
+    </div>
+</div>
+
+<div id="cartModal" class="modal-popup">
+    <div id="cartContent" class="popup-content">
+        <button class="close" onclick="closeCart()">X</button>
+        <h2>Your Cart Summary</h2>
+        <div class="cart-scroll-area">
+            <table id="cartTable">
+                <thead><tr><th>Item</th><th>Price</th><th>Qty</th><th>Total</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        
+        <p id="totalAmount" class="cart-total"></p>
+
+        <h3 class="checkout-title">Checkout & Payment</h3>
+        <label class="radio-label"><input type="radio" name="payment" value="UPI"> UPI Payment</label>
+        <label class="radio-label"><input type="radio" name="payment" value="COD"> Cash on Delivery</label>
+
+        <div id="upiSection" class="payment-section" style="display:none;">
+            <p>Your unique order code: <input type="text" id="orderCodeDisplay" readonly></p>
+            <button id="payNowBtn">Pay Now (Simulated - Requires Admin Approval)</button>
+            <p id="paymentStatus" class="status-message"></p>
+        </div>
+
+        <div id="codSection" class="payment-section" style="display:none;">
+            <p>Your order code for COD: <strong id="codOrderCodeDisplay"></strong></p>
+            <button id="placeOrderBtn" onclick="placeOrder('COD')">Place COD Order</button>
+            <p id="codStatus" class="status-message"></p>
+        </div>
+    </div>
+</div>
+
+<footer>&copy; 2025 Raja Rice & Grocery. All Rights Reserved.</footer>
+
+<script src="script.js"></script>
+<script src="bill.js"></script> 
+
+</body>
+</html>
