@@ -6,7 +6,9 @@ const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzPTxPe48-udI8qaj3e
 // Function to fetch the approved codes from the Google Sheet API
 async function fetchApprovedCodes() {
     try {
-        const response = await fetch(https://script.google.com/macros/s/AKfycbzPTxPe48-udI8qaj3e93qZ4lsQOuANZN4cljrXFZjLtqBVipieq9Y5lyLsQ_Mbi8v21g/exec); 
+        // CORRECTED LINE: Use the defined variable WEB_APP_URL
+        const response = await fetch(WEB_APP_URL); 
+        
         if (!response.ok) {
             throw new Error('Failed to fetch central approved codes.');
         }
