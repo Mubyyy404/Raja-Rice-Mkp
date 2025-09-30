@@ -24,7 +24,7 @@
 </div>
 
 <script>
-    // ⚠️ IMPORTANT: The correct and current deployed Web App URL!
+    // **YOUR CONFIRMED, LIVE WEB APP URL**
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzPTxPe48-udI8qaj3e93qZ4lsQOuANZN4cljrXFZjLtqBVipieq9Y5lyLsQ_Mbi8v21g/exec"; 
 
     function approveOrder() {
@@ -37,24 +37,33 @@
             return;
         }
 
-        // CORRECTED LINE: Using the variable WEB_APP_URL
         fetch(WEB_APP_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ orderCode: code })
         })
-        .then(response => response.json())
+        .then(response => {
+            // Check if the response status is okay (200-299)
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.status === "success") {
                 statusDiv.innerText = `✅ Order ${code} approved successfully! This is now reflected for the client.`;
+                statusDiv.style.color = '#388e3c'; // Green
                 document.getElementById('approveCode').value = '';
             } else {
                 statusDiv.innerText = `❌ Error: ${data.message}`;
+                statusDiv.style.color = '#d32f2f'; // Red
             }
         })
         .catch(error => {
-            statusDiv.innerText = "⚠️ Network Error. Could not connect to Google Sheets API.";
-            console.error('Approval Error:', error);
+            // This catches network errors or JSON parsing errors
+            statusDiv.innerText = `⚠️ Connection Error or Script Crash. Check F12 Console.`;
+            statusDiv.style.color = '#f57c00'; // Orange
+            console.error('Approval Failed:', error);
         });
     }
 </script>
