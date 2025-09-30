@@ -1,6 +1,6 @@
 // --- bill.js ---
 
-// URL UPDATED with your new, working deployment link
+// ✅ URL UPDATED with your new, working deployment link
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxCEnQH5Q4Il5SdkpoMkA2_TtcMbf-B0H_371qDktHA16Wvkbpknh_BNgVllx4Ap_f9fQ/exec"; 
 
 // Function to fetch the approved codes from the Google Sheet API
