@@ -24,7 +24,7 @@
 </div>
 
 <script>
-    // ⚠️ IMPORTANT: REPLACE THIS URL with your deployed Web App URL!
+    // ⚠️ IMPORTANT: The correct and current deployed Web App URL!
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzPTxPe48-udI8qaj3e93qZ4lsQOuANZN4cljrXFZjLtqBVipieq9Y5lyLsQ_Mbi8v21g/exec"; 
 
     function approveOrder() {
@@ -37,7 +37,8 @@
             return;
         }
 
-        fetch(https://script.google.com/macros/s/AKfycbzPTxPe48-udI8qaj3e93qZ4lsQOuANZN4cljrXFZjLtqBVipieq9Y5lyLsQ_Mbi8v21g/exec, {
+        // CORRECTED LINE: Using the variable WEB_APP_URL
+        fetch(WEB_APP_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ orderCode: code })
