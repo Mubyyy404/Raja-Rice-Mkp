@@ -1,9 +1,9 @@
 // --- bill.js ---
 
-// ✅ URL UPDATED with your new, working deployment link
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxCEnQH5Q4Il5SdkpoMkA2_TtcMbf-B0H_371qDktHA16Wvkbpknh_BNgVllx4Ap_f9fQ/exec"; 
+// ✅ New URL must be used here!
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyFqbr-xrafGiA4PIidqI-5cLmRyp0xnlJMLM-d2wA2dXYnsUyyr0CRYWUM4SCkGxq4aw/exec"; 
 
-// Function to fetch the approved codes from the Google Sheet API
+// Function to fetch the approved codes from the Google Sheet API (via doGet)
 async function fetchApprovedCodes() {
     try {
         const response = await fetch(WEB_APP_URL); 
@@ -18,7 +18,9 @@ async function fetchApprovedCodes() {
     }
 }
 
-// Main Bill Fetch Function
+// ... (Rest of your fetchBill, generateBill, and downloadPDF functions) ...
+// (Ensure the rest of your bill.js code is present below)
+
 async function fetchBill() {
     const code = document.getElementById('enterCode').value.trim().toUpperCase();
     const billStatus = document.getElementById('billStatus');
@@ -52,7 +54,6 @@ async function fetchBill() {
     }
 }
 
-// Function to generate and display the bill
 function generateBill(order) {
     const billDiv = document.getElementById('billContainer');
     billDiv.style.display = 'block';
@@ -75,7 +76,6 @@ function generateBill(order) {
     document.getElementById('downloadBtn').style.display = 'inline-block';
 }
 
-// PDF Download
 function downloadPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
