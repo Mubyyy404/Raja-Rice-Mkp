@@ -24,8 +24,8 @@
 </div>
 
 <script>
-    // **YOUR CONFIRMED, LIVE WEB APP URL**
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzPTxPe48-udI8qaj3e93qZ4lsQOuANZN4cljrXFZjLtqBVipieq9Y5lyLsQ_Mbi8v21g/exec"; 
+    // URL UPDATED with your new, working deployment link
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxCEnQH5Q4Il5SdkpoMkA2_TtcMbf-B0H_371qDktHA16Wvkbpknh_BNgVllx4Ap_f9fQ/exec"; 
 
     function approveOrder() {
         const code = document.getElementById('approveCode').value.trim().toUpperCase();
@@ -43,7 +43,6 @@
             body: JSON.stringify({ orderCode: code })
         })
         .then(response => {
-            // Check if the response status is okay (200-299)
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -52,17 +51,16 @@
         .then(data => {
             if (data.status === "success") {
                 statusDiv.innerText = `✅ Order ${code} approved successfully! This is now reflected for the client.`;
-                statusDiv.style.color = '#388e3c'; // Green
+                statusDiv.style.color = '#388e3c';
                 document.getElementById('approveCode').value = '';
             } else {
                 statusDiv.innerText = `❌ Error: ${data.message}`;
-                statusDiv.style.color = '#d32f2f'; // Red
+                statusDiv.style.color = '#d32f2f';
             }
         })
         .catch(error => {
-            // This catches network errors or JSON parsing errors
-            statusDiv.innerText = `⚠️ Connection Error or Script Crash. Check F12 Console.`;
-            statusDiv.style.color = '#f57c00'; // Orange
+            statusDiv.innerText = `⚠️ Connection Error. Could not connect to Google Sheets API.`;
+            statusDiv.style.color = '#f57c00';
             console.error('Approval Failed:', error);
         });
     }
