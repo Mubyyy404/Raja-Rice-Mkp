@@ -1,4 +1,4 @@
-// --- bill.js ---
+// --- bill.js (Client Lookup Logic) ---
 
 // ✅ New URL must be used here!
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyFqbr-xrafGiA4PIidqI-5cLmRyp0xnlJMLM-d2wA2dXYnsUyyr0CRYWUM4SCkGxq4aw/exec"; 
@@ -18,24 +18,20 @@ async function fetchApprovedCodes() {
     }
 }
 
-// ... (Rest of your fetchBill, generateBill, and downloadPDF functions) ...
-// (Ensure the rest of your bill.js code is present below)
-
 async function fetchBill() {
     const code = document.getElementById('enterCode').value.trim().toUpperCase();
     const billStatus = document.getElementById('billStatus');
     
-    // 1. Fetch the order details saved locally
-    const allOrders = JSON.parse(localStorage.getItem("allOrders")) || [];
-    const orderToBill = allOrders.find(order => order.code === code);
+    // 1. Fetch the order details saved locally (this is the data used to generate the PDF)
+    const orderToBill = JSON.parse(localStorage.getItem("latestOrder")); 
     
     // Reset display
     document.getElementById('billContainer').style.display = 'none';
     document.getElementById('downloadBtn').style.display = 'none';
 
-    if (!orderToBill) {
+    if (!orderToBill || orderToBill.orderCode.toUpperCase() !== code) {
         billStatus.className = 'bill-status';
-        billStatus.innerText = "❌ Error: Order code not found. Please ensure you've placed the order on this device.";
+        billStatus.innerText = "❌ Error: Order code not found on this device.";
         return;
     }
 
@@ -68,15 +64,17 @@ function generateBill(order) {
     billDiv.innerHTML = `
         <h3>Raja Rice & Grocery - Final Bill</h3>
         ${itemsHTML}
-        <p class="cart-total"><strong>Payment Method:</strong> ${order.payment}</p>
+        <p class="cart-total"><strong>Payment Method:</strong> ${order.payment || 'N/A'}</p>
         <p class="cart-total"><strong>Total Amount:</strong> ₹${order.total}</p>
-        <p class="cart-total"><strong>Order Code:</strong> ${order.code}</p>
+        <p class="cart-total"><strong>Order Code:</strong> ${order.orderCode}</p>
         <p style="text-align:center; margin-top:20px;">*Thank you for shopping with us!*</p>
     `;
     document.getElementById('downloadBtn').style.display = 'inline-block';
 }
 
 function downloadPDF() {
+    // ... (Your PDF generation logic using jspdf and html2canvas) ...
+    // This part remains the same.
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     
