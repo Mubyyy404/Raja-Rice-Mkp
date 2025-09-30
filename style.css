@@ -1,0 +1,63 @@
+/* General Reset and Base Styles */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+body{background:#f4f4f4;color:#333;line-height:1.6;}
+
+/* Header and Navigation */
+header{background:#388e3c;color:#fff;padding:30px 20px;text-align:center;font-size:2.5em;font-weight:700;box-shadow:0 4px 6px rgba(0,0,0,0.1);}
+nav{background:#fff;padding:15px 20px;box-shadow:0 2px 4px rgba(0,0,0,0.05);border-bottom:1px solid #ddd;}
+.nav-controls{display:flex;justify-content:center;align-items:center;gap:15px;max-width:1200px;margin:0 auto;flex-wrap: wrap;}
+nav input[type="text"]{padding:10px 15px;width:300px;border:1px solid #ccc;border-radius:25px;outline:none;transition:.3s;font-size:1em;}
+nav button, .get-bill-btn{padding:10px 20px;border:none;background:#f0f0f0;color:#388e3c;font-weight:600;border-radius:25px;cursor:pointer;transition:.3s;text-decoration:none;font-size:1em;display:inline-flex;align-items:center;}
+nav button:hover, .get-bill-btn:hover{background:#388e3c;color:#fff;}
+.get-bill-btn{background:#e0f7fa;color:#00796b;}
+.get-bill-btn:hover{background:#00796b;color:#fff;}
+
+/* Product Grid */
+.container{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:30px;padding:40px 20px;max-width:1200px;margin:0 auto;}
+.card{background:#fff;border-radius:12px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);transition:transform .3s,box-shadow .3s;overflow:hidden;}
+.card:hover{transform:translateY(-5px);box-shadow:0 8px 20px rgba(0,0,0,0.15);}
+.card img{width:100%;height:220px;object-fit:cover;border-bottom:1px solid #eee;}
+.card h3{margin:15px 0 5px;color:#388e3c;font-size:1.4em;}
+.card p{font-size:1em;color:#555;padding:0 20px;}
+.card button{padding:12px 25px;margin:15px 0 20px;border:none;border-radius:25px;background:#388e3c;color:#fff;font-weight:bold;cursor:pointer;transition:.3s;font-size:1em;}
+.card button:hover{background:#4caf50;}
+
+/* Footer */
+footer{background:#388e3c;color:#fff;text-align:center;padding:20px;margin-top:40px;font-size:0.9em;}
+
+/* Modal/Popup Styles */
+.modal-popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);display:none;justify-content:center;align-items:center;z-index:2000;padding:20px;}
+.popup-content{background:#fff;padding:30px;border-radius:15px;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 10px 25px rgba(0,0,0,0.3);}
+.popup-content h2{text-align:center;margin-bottom:20px;color:#388e3c;font-size:1.8em;}
+.popup-content button.close{position:absolute;top:15px;right:15px;background:#e57373;color:#fff;border:none;padding:8px 12px;border-radius:50%;cursor:pointer;font-weight:bold;line-height:1;}
+.popup-content button.close:hover{background:#f44336;}
+
+/* Cart Specific Styles */
+.cart-scroll-area{max-height:300px;overflow-y:auto;margin-bottom:15px;border:1px solid #eee;border-radius:8px;}
+#cartTable{width:100%;border-collapse:collapse;}
+#cartTable th,td{border:none;padding:12px;text-align:center;border-bottom:1px solid #eee;}
+#cartTable thead th{background:#f9f9f9;font-weight:600;}
+#cartTable button{padding:5px 10px;margin:0 5px;background:#66bb6a;color:#fff;border:none;border-radius:5px;cursor:pointer;}
+#cartTable button:hover{background:#388e3c;}
+.cart-total{font-weight:bold;font-size:1.3em;text-align:right;margin-top:15px;padding-right:10px;color:#00796b;}
+
+/* Checkout/Payment Styles */
+.checkout-title{margin:25px 0 15px;color:#388e3c;border-bottom:2px solid #eee;padding-bottom:5px;}
+.radio-label{display:block;margin-bottom:10px;font-size:1.1em;}
+.payment-section{border:1px dashed #ccc;padding:15px;margin-top:10px;border-radius:8px;}
+.payment-section input[type="text"]{width:100%;padding:10px;margin:5px 0 15px;border:1px solid #ddd;border-radius:5px;}
+#payNowBtn, #placeOrderBtn{background:#29b6f6;color:#fff;padding:12px 25px;border-radius:25px;border:none;cursor:pointer;transition:.3s;font-weight:600;}
+#placeOrderBtn{background:#ffa726;}
+#payNowBtn:hover{background:#039be5;}
+#placeOrderBtn:hover{background:#fb8c00;}
+.status-message{margin-top:15px;font-weight:bold;color:#43a047;}
+
+/* Get Bill Page Styles (reused for bill.html) */
+.bill-status{font-size:1.2em;margin:20px 0;padding:15px;border-radius:8px;text-align:center;}
+#billContainer{border:1px solid #ccc;padding:30px;margin-top:20px;background:#fff;border-radius:10px;}
+#billContainer h3{color:#388e3c;text-align:center;margin-bottom:20px;}
+#billContainer table{width:100%;border-collapse:collapse;margin-top:15px;}
+#billContainer th, #billContainer td{border:1px solid #ddd;padding:10px;text-align:left;}
+#billContainer strong{color:#00796b;}
+#downloadBtn{display:block;width:fit-content;margin:20px auto;padding:12px 30px;background:#d32f2f;color:#fff;border-radius:25px;font-weight:bold;}
+#downloadBtn:hover{background:#c62828;}
