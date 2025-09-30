@@ -1,18 +1,17 @@
 // --- bill.js ---
 
-// ⚠️ IMPORTANT: REPLACE THIS URL with your deployed Web App URL!
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzPTxPe48-udI8qaj3e93qZ4lsQOuANZN4cljrXFZjLtqBVipieq9Y5lyLsQ_Mbi8v21g/exec"; 
+// URL UPDATED with your new, working deployment link
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxCEnQH5Q4Il5SdkpoMkA2_TtcMbf-B0H_371qDktHA16Wvkbpknh_BNgVllx4Ap_f9fQ/exec"; 
 
 // Function to fetch the approved codes from the Google Sheet API
 async function fetchApprovedCodes() {
     try {
-        // CORRECTED LINE: Use the defined variable WEB_APP_URL
         const response = await fetch(WEB_APP_URL); 
         
         if (!response.ok) {
             throw new Error('Failed to fetch central approved codes.');
         }
-        return response.json(); // Returns the array of codes from the sheet
+        return response.json(); 
     } catch (error) {
         console.error("Error fetching approved codes:", error);
         return []; 
@@ -24,7 +23,7 @@ async function fetchBill() {
     const code = document.getElementById('enterCode').value.trim().toUpperCase();
     const billStatus = document.getElementById('billStatus');
     
-    // 1. Fetch the order details saved locally when the client placed the order
+    // 1. Fetch the order details saved locally
     const allOrders = JSON.parse(localStorage.getItem("allOrders")) || [];
     const orderToBill = allOrders.find(order => order.code === code);
     
