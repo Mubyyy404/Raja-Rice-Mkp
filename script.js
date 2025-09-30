@@ -1,3 +1,8 @@
+// --- script.js (FINAL E-COMMERCE LOGIC) ---
+
+// 1. WEB APP URL (Used for POST request to submit order)
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyFqbr-xrafGiA4PIidqI-5cLmRyp0xnlJMLM-d2wA2dXYnsUyyr0CRYWUM4SCkGxq4aw/exec";
+
 // --- STATE MANAGEMENT: Load/Save from localStorage ---
 
 // Load cart and order code from localStorage or initialize new ones
@@ -30,11 +35,9 @@ function addToCart(id, name, price) {
     if (item) {
         item.quantity++;
     } else {
-        cart.push({ id, name, price, quantity: 1 }); 
+        cart.push({ id, name, price, quantity: 1 });    
     }
     saveCartState();
-    // Optional: Show a brief confirmation message/animation
-    // alert(`${name} added to cart!`);
 }
 
 // Update cart count (total quantity of items)
@@ -103,7 +106,7 @@ function changeQty(id, delta) {
     updateCartTable();
 }
 
-// --- CHECKOUT & ORDER PLACEMENT ---
+// --- CHECKOUT & ORDER PLACEMENT (NEW LOGIC) ---
 
 // Toggle payment sections
 document.querySelectorAll('input[name="payment"]').forEach(radio => {
@@ -122,38 +125,63 @@ document.querySelectorAll('input[name="payment"]').forEach(radio => {
 document.getElementById('payNowBtn').addEventListener('click', () => {
     placeOrder('UPI');
 });
+// COD button should also call placeOrder('COD')
 
-// Final Order Placement function
+// Final Order Placement function (Submits data to Google Sheet via POST)
 function placeOrder(method) {
-    // 1. Create the order object
     const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
-    const order = {
-        code: orderCode,
-        items: cart,
+    
+    // 1. Construct the final data object to send to the server
+    const finalOrderData = {
+        orderCode: orderCode, // The unique code generated earlier
+        userEmail: document.getElementById('customerEmail') ? document.getElementById('customerEmail').value : 'N/A', // Assuming you have an email input
         total: total,
         payment: method,
+        items: cart,
         timestamp: new Date().toISOString()
     };
 
-    // 2. Save the order to localStorage (in a dedicated 'allOrders' array)
-    let orders = JSON.parse(localStorage.getItem('allOrders')) || [];
-    // Only add if the order code doesn't already exist
-    if (!orders.some(o => o.code === orderCode)) {
-        orders.push(order);
-    }
-    localStorage.setItem('allOrders', JSON.stringify(orders));
+    // Show processing message immediately
+    const statusDiv = method === 'UPI' ? document.getElementById('paymentStatus') : document.getElementById('codStatus');
+    statusDiv.innerText = `⏳ Submitting order to shop...`;
 
-    // 3. Display status and reset for a new order
-    if (method === 'UPI') {
-        document.getElementById('paymentStatus').innerText = `✅ Order Placed! Code: ${orderCode}. Admin approval required for bill generation.`;
-    } else {
-        document.getElementById('codStatus').innerText = `✅ COD Order Placed! Code: ${orderCode}. Awaiting admin approval to process.`;
-    }
+    // 2. SEND THE DATA TO THE GOOGLE SHEET VIA POST
+    fetch(WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(finalOrderData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Server responded with status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        // 3. Handle successful server submission
+        if (data.status === "success") {
+            // Save order details locally for the client's bill retrieval page (bill.js uses this!)
+            // We use a different key ("latestOrder") now since we no longer track an "allOrders" array.
+            localStorage.setItem("latestOrder", JSON.stringify(finalOrderData)); 
+            
+            // 4. Clear cart and generate NEW code for the next transaction
+            cart = [];
+            orderCode = 'ORD-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+            saveCartState(); // Saves the empty cart and new order code
+            
+            // 5. Update status display
+            statusDiv.innerText = `✅ Order Placed! Code: ${data.orderCode}. Admin approval required for bill generation.`;
 
-    // 4. Clear the current cart and generate a NEW order code for the next transaction
-    cart = [];
-    orderCode = 'ORD-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-    saveCartState(); 
+        } else {
+            // Server responded with custom error
+            statusDiv.innerText = `❌ Failed to place order: ${data.message}`;
+        }
+    })
+    .catch(error => {
+        // Connection error
+        console.error('Error submitting order:', error);
+        statusDiv.innerText = `❌ Connection Error: Could not reach the shop server.`;
+    });
 }
 
 // --- SEARCH FUNCTIONALITY ---
