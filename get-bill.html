@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Your Bill - Raja Rice & Grocery</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+<header>Raja Rice & Grocery - Get Bill</header>
+
+<div class="container" style="max-width: 800px;">
+    <h3>Enter your Unique Order Code</h3>
+    <p>This checks the central Google Sheet for approval status.</p>
+    <input type="text" id="enterCode" placeholder="Enter your unique code (e.g., ORD-A7B8C9)">
+    <button onclick="fetchBill()">Get Bill</button>
+    <p id="billStatus" class="bill-status"></p>
+
+    <div id="billContainer" style="display:none;">
+        </div>
+    
+    <button id="downloadBtn" style="display:none;" onclick="downloadPDF()">Download Bill as PDF</button>
+</div>
+
+<script src="script.js"></script>
+<script src="bill.js"></script>
+
+</body>
+</html>
